@@ -2,6 +2,12 @@
 
 Generate captions for every image in an [Immich](https://immich.app) library using a local [Ollama](https://ollama.ai) vision model, then write each caption back to the asset's `description` metadata field.
 
+## Example
+
+![Screenshot of the immich-ollama-describe-images script running](.github/images/python-screenshot.png)
+
+![Screenshot of the description field for a described image in immich](.github/images/immich-screenshot.png)
+
 ## Requirements
 
 - Python 3 with dependencies installed from `requirements.txt`:
@@ -17,6 +23,8 @@ Generate captions for every image in an [Immich](https://immich.app) library usi
 export IMMICH_API_KEY=your_key_here
 python3 immich-ollama-describe-images.py --server https://your.immich.instance.url
 ```
+
+*Tip:* Edit DEFAULT_SERVER in the script so that you don't have to specify your immich server URL each time.
 
 ### Options
 
