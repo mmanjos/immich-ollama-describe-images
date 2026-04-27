@@ -6,6 +6,8 @@ Generate captions for every image in an [Immich](https://immich.app) library usi
 
 ![Screenshot of the immich-ollama-describe-images script running](.github/images/python-screenshot.png)
 
+*Note:* The performance metrics of the script in this screenshot are from a server with a `GeForce RTX 5080 16GB` running `gemma3:12b-it-qat` on `ollama-0.21.2`.
+
 ![Screenshot of the description field for a described image in immich](.github/images/immich-screenshot.png)
 
 ## Requirements
