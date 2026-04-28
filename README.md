@@ -73,3 +73,7 @@ It will use `ollama.list()` to see all models that are downloaded to your local 
 Running `--benchmark` while specifying `[ASSET_ID]` prints the responses and benchmark data to STDOUT.
 
 Running `--benchmark` without specifying an `[ASSET_ID]` causes `benchmark-ASSET_ID.txt` files to be written containing the responses from each of the first 8 Immich assets that were tested.
+
+### Example
+
+![Screenshot of the immich-ollama-describe-images benchmark mode running](.github/images/benchmark-screenshot.png)
