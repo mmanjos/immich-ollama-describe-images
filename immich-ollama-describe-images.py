@@ -106,8 +106,35 @@ def list_all_assets(client):
         page = int(nxt)
 
 
-def download_original(client, asset_id):
-    r = client.get(f"/api/assets/{asset_id}/original")
+# TIFF and the common camera RAW formats (DNG/NEF/CR2/CR3/ARW/ORF/RW2/RAF/PEF)
+# are all TIFF-based containers; ollama's image decoder rejects them with
+# "tiff: unsupported feature: color model" or similar.
+PREVIEW_FALLBACK_EXTS = (
+    ".tif",
+    ".tiff",
+    ".dng",
+    ".nef",
+    ".cr2",
+    ".cr3",
+    ".arw",
+    ".orf",
+    ".rw2",
+    ".raf",
+    ".pef",
+)
+
+
+def needs_preview_fallback(fname):
+    return fname.lower().endswith(PREVIEW_FALLBACK_EXTS)
+
+
+def download_image(client, asset_id, fname):
+    # For formats ollama can't decode, pull the Immich-rendered preview JPG
+    # (`size=preview` is the largest thumbnail) instead of the original bytes.
+    if needs_preview_fallback(fname):
+        r = client.get(f"/api/assets/{asset_id}/thumbnail", params={"size": "preview"})
+    else:
+        r = client.get(f"/api/assets/{asset_id}/original")
     r.raise_for_status()
     return r.content
 
@@ -244,7 +271,7 @@ def run_benchmark(args, client, console, asset_id=None):
     for aid, fname in images:
         console.print(f"[bold cyan]Image:[/bold cyan] {fname}")
         try:
-            img_bytes = download_original(client, aid)
+            img_bytes = download_image(client, aid, fname)
         except httpx.HTTPError as e:
             console.print(f"  [red]download failed: {e}[/red]")
             continue
@@ -454,7 +481,7 @@ def main():
                     except StopIteration:
                         return False
                     aid, fname = nxt
-                    inflight.append((aid, fname, dl_exec.submit(download_original, client, aid)))
+                    inflight.append((aid, fname, dl_exec.submit(download_image, client, aid, fname)))
                     return True
 
                 for _ in range(PREFETCH):
