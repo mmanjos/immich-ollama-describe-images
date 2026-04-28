@@ -68,7 +68,7 @@ python3 immich-ollama-describe-images.py --benchmark 4f3a...e21
 
 There's also a special benchmark mode, used to benchmark and test changes to the models and prompts.
 
-It will use `ollama.list()` to see all models that are downloaded to your local ollama instance, then either run the prompt through each model against the first 8 assets on your Immich server, or against the `[ASSET_ID]` that you specify.
+Benchmark mode uses `ollama.list()` to see all models that are downloaded to your local ollama instance, then either run the prompt through each model against the first 8 assets on your Immich server, or against the `[ASSET_ID]` that you specify.
 
 Running `--benchmark` while specifying `[ASSET_ID]` prints the responses and benchmark data to STDOUT.
 
